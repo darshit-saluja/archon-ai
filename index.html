@@ -309,26 +309,37 @@
       position: absolute;
       z-index: -1;
       border-radius: 50%;
-      filter: blur(55px);
-      opacity: 0.9;
+      filter: blur(45px);
+      opacity: 1;
       animation: glass-drift 16s ease-in-out infinite;
     }
 
     .process-cards::before {
-      width: 360px;
-      height: 360px;
-      top: -110px;
-      left: 4%;
-      background: radial-gradient(circle, var(--accent) 0%, var(--accent) 35%, transparent 72%);
+      width: 440px;
+      height: 440px;
+      top: -150px;
+      left: 2%;
+      background: radial-gradient(circle, var(--accent) 0%, var(--accent) 45%, transparent 75%);
     }
 
     .process-cards::after {
-      width: 400px;
-      height: 400px;
-      bottom: -140px;
-      right: 2%;
-      background: radial-gradient(circle, var(--accent) 0%, var(--accent) 35%, transparent 72%);
+      width: 480px;
+      height: 480px;
+      bottom: -190px;
+      right: -2%;
+      background: radial-gradient(circle, var(--accent) 0%, var(--accent) 45%, transparent 75%);
       animation-delay: -8s;
+    }
+
+    /* Center blob so the middle card catches as much color as its neighbors.
+       Gradual stops stand in for blur — an actual filter here would blur card content too. */
+    .process-cards {
+      background-image: radial-gradient(circle at 50% 32%,
+          rgba(246, 87, 31, 0.5) 0%,
+          rgba(246, 87, 31, 0.28) 18%,
+          rgba(246, 87, 31, 0.12) 34%,
+          transparent 62%);
+      background-repeat: no-repeat;
     }
 
     @keyframes glass-drift {
@@ -344,7 +355,7 @@
     }
 
     .process-card {
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
       border-radius: 22px;
       padding: 28px 28px 32px;
       display: flex;
@@ -352,16 +363,31 @@
       gap: 0;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.45));
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      backdrop-filter: blur(20px) saturate(180%);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.14) 55%, rgba(255, 255, 255, 0.3));
+      -webkit-backdrop-filter: blur(32px) saturate(220%);
+      backdrop-filter: blur(32px) saturate(220%);
       box-shadow:
-        0 8px 30px rgba(13, 17, 23, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 8px 30px rgba(13, 17, 23, 0.08),
+        0 30px 60px rgba(246, 87, 31, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 0 40px rgba(255, 255, 255, 0.25);
       transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
         background 0.35s ease,
         border-color 0.35s ease;
+    }
+
+    /* Permanent glass glare in the top-left corner — visible even at rest */
+    .process-card::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: -20%;
+      width: 70%;
+      height: 60%;
+      background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.65), transparent 70%);
+      pointer-events: none;
+      mix-blend-mode: overlay;
     }
 
     /* Specular sheen sweeping across the glass on hover — stand-in for .glassEffect(.interactive()) */
@@ -370,27 +396,31 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(115deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.55) 46%,
-          rgba(255, 255, 255, 0.55) 54%,
-          transparent 70%);
-      transform: translateX(-120%);
-      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+          transparent 25%,
+          rgba(255, 255, 255, 0.75) 46%,
+          rgba(255, 255, 255, 0.75) 54%,
+          transparent 75%);
+      transform: translateX(-130%);
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
     }
 
     .process-card:hover {
       box-shadow:
-        0 16px 40px rgba(13, 17, 23, 0.12),
-        0 0 0 1px rgba(246, 87, 31, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-      transform: translateY(-4px) scale(1.012);
-      border-color: rgba(255, 255, 255, 0.85);
-      background: linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.55));
+        0 20px 50px rgba(13, 17, 23, 0.14),
+        0 0 0 1px rgba(246, 87, 31, 0.22),
+        0 30px 70px rgba(246, 87, 31, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        inset 0 0 50px rgba(255, 255, 255, 0.35);
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255, 255, 255, 1);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.2) 55%, rgba(255, 255, 255, 0.4));
+      -webkit-backdrop-filter: blur(38px) saturate(240%);
+      backdrop-filter: blur(38px) saturate(240%);
     }
 
     .process-card:hover::after {
-      transform: translateX(120%);
+      transform: translateX(130%);
     }
 
     /* Top row: icon left, number right */
@@ -405,11 +435,11 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
-      -webkit-backdrop-filter: blur(10px) saturate(160%);
-      backdrop-filter: blur(10px) saturate(160%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 8px rgba(13, 17, 23, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      background: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.2));
+      -webkit-backdrop-filter: blur(16px) saturate(220%);
+      backdrop-filter: blur(16px) saturate(220%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 4px 12px rgba(13, 17, 23, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -432,13 +462,13 @@
       font-weight: 700;
       color: var(--ink-3);
       letter-spacing: 0.06em;
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
       border-radius: 100px;
       padding: 3px 11px;
-      background: rgba(255, 255, 255, 0.4);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.25);
+      -webkit-backdrop-filter: blur(14px) saturate(200%);
+      backdrop-filter: blur(14px) saturate(200%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
     }
 
     .card-title {
